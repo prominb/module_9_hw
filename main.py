@@ -15,6 +15,7 @@ def input_error(func):
     return inner
 
 
+# @input_error
 def hello_handler():
     print("How can I help you?")
 
@@ -22,13 +23,9 @@ def hello_handler():
 def add_handler(input_command_lower_case):
     input_command_list = input_command_lower_case.split()
     name, phone = input_command_list[1], input_command_list[2]
-    # print(input_command_list[2])
-    # print('Contact added!')
     if name.title() in contact_book.keys():
-        # print(f'Name {name.title()} already exists. Please use "change" command')
         return f'Name {name.title()} already exists. Please use "change" command.'
     elif phone in contact_book.values():
-        # print(f'Phone {phone} already exists. Please use "change" command')
         return f'Phone {phone} already exists. Please use "change" command.'
     else:
         title_name = name.title()
@@ -36,17 +33,27 @@ def add_handler(input_command_lower_case):
         if phone.isdecimal():
             contact_book[title_name] = phone
         else:
-            # print("Not Digit")
+            phone_int = int(phone)
+            print(phone_int)  # print("Not Digit")
+    return 'Contact added!'
+
+
+def change_handler(input_command_lower_case):
+    input_command_list = input_command_lower_case.split()
+    name, phone = input_command_list[1], input_command_list[2]
+    if name.title() not in contact_book.keys():
+        return f'Name {name.title()} doesn\'t exists. Please use "add" command.'
+    elif phone in contact_book.values():
+        return f'Phone {phone} already exists. Please use "show all" to see all contacts.'
+    else:
+        title_name = name.title()
+        phone = phone.removeprefix('+')
+        if phone.isdecimal():
+            contact_book[title_name] = phone
+        else:
             phone_int = int(phone)
             print(phone_int)
-    # print(arg_dict)
-    return 'Contact added!' # arg_dict
-
-
-def change_handler(arg_name, arg_phone, arg_dict):
-    lower_name = arg_name.lower()
-    arg_dict[lower_name] = arg_phone
-    return arg_dict
+    return 'Contact changed!'
 
 
 def phone_handler():
@@ -73,8 +80,8 @@ def main():
                 hello_handler()
             elif input_cmd_lower_case[:3] == "add":
                 print(add_handler(input_cmd_lower_case))
-            # elif input_command_list[0].lower() == "change":
-            #     contact_book = change_handler(input_command_list[1], input_command_list[2], contact_book)
+            elif input_cmd_lower_case[:6] == "change":
+                print(change_handler(input_cmd_lower_case))
             #     print("Contact changed!")
             # elif input_command_list[0].lower() == "phone":
             #     print(f"{input_command_list[1]}\'s phone number is {contact_book.get(input_command_list[1])}")
