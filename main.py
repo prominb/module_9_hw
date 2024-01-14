@@ -15,7 +15,6 @@ def input_error(func):
     return inner
 
 
-# @input_error
 def hello_handler():
     print("How can I help you?")
 
@@ -38,6 +37,7 @@ def add_handler(input_command_lower_case):
     return 'Contact added!'
 
 
+@input_error
 def change_handler(input_command_lower_case):
     input_command_list = input_command_lower_case.split()
     name, phone = input_command_list[1], input_command_list[2]
@@ -56,8 +56,13 @@ def change_handler(input_command_lower_case):
     return 'Contact changed!'
 
 
-def phone_handler():
-    pass
+def phone_handler(input_command_lower_case):
+    input_command_list = input_command_lower_case.split()
+    name = input_command_list[1]
+    name = name.capitalize()
+    # if name.title() not in contact_book.keys():
+    #     return f'Name {name.title()} doesn\'t exists. Please use "add" command.'
+    return contact_book.get(name, f'Name {name} doesn\'t exists.')
 
 
 def show_all_handler(contact_book):
@@ -82,9 +87,8 @@ def main():
                 print(add_handler(input_cmd_lower_case))
             elif input_cmd_lower_case[:6] == "change":
                 print(change_handler(input_cmd_lower_case))
-            #     print("Contact changed!")
-            # elif input_command_list[0].lower() == "phone":
-            #     print(f"{input_command_list[1]}\'s phone number is {contact_book.get(input_command_list[1])}")
+            elif input_cmd_lower_case[:5] == "phone":
+                print(phone_handler(input_cmd_lower_case))
             elif input_command.lower() == "show all":
                 show_all_handler(contact_book)
             else:
