@@ -9,7 +9,7 @@ def input_error(func):
         except ValueError:
             return "The phone contains a letters!"
         except IndexError:
-            return "Invalid command!"
+            return "Invalid command! Enter user name."
         except KeyError:
             return "Name doesn\'t exists."
         except KeyboardInterrupt:
@@ -70,9 +70,13 @@ def phone_handler(input_command_lower_case):
     return contact_book.get(name, f'Name {name} doesn\'t exists.')
 
 
+@input_error
 def show_all_handler(contact_book):
-    for key, value in contact_book.items():
-        print(f"Name: {key:<15} Phone: {value}")
+    if len(contact_book) == 0:
+        print(contact_book.pop('test'))
+    else:
+        for key, value in contact_book.items():
+            return f"Name: {key:<15} Phone: {value}"
 
 
 def good_bye():
@@ -95,10 +99,10 @@ def main():
             elif input_cmd_lower_case[:5] == "phone":
                 print(phone_handler(input_cmd_lower_case))
             elif input_command.lower() == "show all":
-                show_all_handler(contact_book)
+                print(show_all_handler(contact_book))
             else:
                 print('===>>> Invalid command! <<<===')
-            print(contact_book)
+            # print(contact_book)
     except KeyboardInterrupt:
         print("\nAbort the mission")
     finally:
