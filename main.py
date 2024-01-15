@@ -10,20 +10,24 @@ def input_error(func):
             return "The phone contains a letters!"
         except IndexError:
             return "Invalid command!"
+        except KeyError:
+            return "Name doesn\'t exists."
         except KeyboardInterrupt:
-            return "AAAAAAAAAAAAAAAA"
+            return "Aborted."
     return inner
 
 
 def hello_handler():
     print("How can I help you?")
 
+
 @input_error
 def add_handler(input_command_lower_case):
     input_command_list = input_command_lower_case.split()
     name, phone = input_command_list[1], input_command_list[2]
     if name.title() in contact_book.keys():
-        return f'Name {name.title()} already exists. Please use "change" command.'
+        return f'Name {name.title()} already exists.' \
+                'Please use "change" command.'
     elif phone in contact_book.values():
         return f'Phone {phone} already exists. Please use "change" command.'
     else:
@@ -33,7 +37,7 @@ def add_handler(input_command_lower_case):
             contact_book[title_name] = phone
         else:
             phone_int = int(phone)
-            print(phone_int)  # print("Not Digit")
+            print(phone_int)
     return 'Contact added!'
 
 
@@ -42,9 +46,11 @@ def change_handler(input_command_lower_case):
     input_command_list = input_command_lower_case.split()
     name, phone = input_command_list[1], input_command_list[2]
     if name.title() not in contact_book.keys():
-        return f'Name {name.title()} doesn\'t exists. Please use "add" command.'
+        return f'Name {name.title()} doesn\'t exists.' \
+                'Please use "add" command.'
     elif phone in contact_book.values():
-        return f'Phone {phone} already exists. Please use "show all" to see all contacts.'
+        return f'Phone {phone} already exists.' \
+                'Please use "show all" to see all contacts.'
     else:
         title_name = name.title()
         phone = phone.removeprefix('+')
@@ -56,12 +62,11 @@ def change_handler(input_command_lower_case):
     return 'Contact changed!'
 
 
+@input_error
 def phone_handler(input_command_lower_case):
     input_command_list = input_command_lower_case.split()
     name = input_command_list[1]
     name = name.capitalize()
-    # if name.title() not in contact_book.keys():
-    #     return f'Name {name.title()} doesn\'t exists. Please use "add" command.'
     return contact_book.get(name, f'Name {name} doesn\'t exists.')
 
 
@@ -92,7 +97,7 @@ def main():
             elif input_command.lower() == "show all":
                 show_all_handler(contact_book)
             else:
-                print('===>>>Invalid command!<<<===')
+                print('===>>> Invalid command! <<<===')
             print(contact_book)
     except KeyboardInterrupt:
         print("\nAbort the mission")
