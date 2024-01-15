@@ -12,8 +12,6 @@ def input_error(func):
             return "Invalid command! Enter user name."
         except KeyError:
             return "Name doesn\'t exists."
-        except KeyboardInterrupt:
-            return "Aborted."
     return inner
 
 
@@ -36,8 +34,7 @@ def add_handler(input_command_lower_case):
         if phone.isdecimal():
             contact_book[title_name] = phone
         else:
-            phone_int = int(phone)
-            print(phone_int)
+            print(int(phone))
     return 'Contact added!'
 
 
@@ -57,16 +54,14 @@ def change_handler(input_command_lower_case):
         if phone.isdecimal():
             contact_book[title_name] = phone
         else:
-            phone_int = int(phone)
-            print(phone_int)
+            print(int(phone))
     return 'Contact changed!'
 
 
 @input_error
 def phone_handler(input_command_lower_case):
     input_command_list = input_command_lower_case.split()
-    name = input_command_list[1]
-    name = name.capitalize()
+    name = input_command_list[1].capitalize()
     return contact_book.get(name, f'Name {name} doesn\'t exists.')
 
 
