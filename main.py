@@ -76,7 +76,8 @@ def show_all_handler(contact_book):
         print(contact_book.pop('test'))
     else:
         for key, value in contact_book.items():
-            return f"Name: {key:<15} Phone: {value}"
+            print(f"Name: {key:<15} Phone: {value}")
+        return contact_book
 
 
 def good_bye():
@@ -101,7 +102,7 @@ def main():
             elif input_command.lower() == "show all":
                 print(show_all_handler(contact_book))
             else:
-                print('===>>> Invalid command! <<<===')
+                print('=> Invalid command! <=')
             # print(contact_book)
     except KeyboardInterrupt:
         print("\nAbort the mission")
